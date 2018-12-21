@@ -14,19 +14,19 @@ println "source is ${formatTestObject(source)}"
 
 TestObject target = CustomKeywords.'my.TestObjectTransformer.toMyFavoritesXPath'(source, FailureHandling.OPTIONAL)
 assert target != null
-
 println "target is ${formatTestObject(target)}"
 
 
-println target.getActiveXpaths()
-println target.getActiveXpaths().size()
-println target.getActiveXpaths().get(0).class
-println target.getActiveXpaths().get(0).getName()
-println target.getActiveXpaths().get(0).getValue()
-Method[] allMethods = target.getActiveXpaths().get(0).class.getDeclaredMethods()
-for (Method m : allMethods) {
-	println m.toString()
-}
+//println target.getActiveXpaths()
+//println target.getActiveXpaths().size()
+//println target.getActiveXpaths().get(0).class
+//println target.getActiveXpaths().get(0).getName()
+//println target.getActiveXpaths().get(0).getValue()
+//Method[] allMethods = target.getActiveXpaths().get(0).class.getDeclaredMethods()
+//for (Method m : allMethods) {
+//	println m.toString()
+//}
+//println "target.getSelectorMethod().class is ${target.getSelectorMethod().class}"
 
 /**
  * convert a test object into string
@@ -46,33 +46,35 @@ String formatTestObject(TestObject to) {
 	sb.append("\"selectorMethod\":\"")
 	sb.append(to.getSelectorMethod())  // XPATH,BASIC,CSS
 	sb.append("\"")
-	//
-	if (to.getSelectorMethod().equals("XPATH") && to.getActiveXpaths().size() > 0) {
+	// XPATH detail
+	if (to.getSelectorMethod() == SelectorMethod.XPATH) {
 		sb.append(",")
+		sb.append("\"activeXpaths\":")
 		sb.append("[")
-		int count = 0
+		int countx = 0
 		for (TestObjectXpath xp : to.getActiveXpaths()) {
-			if (count > 0) {
+			if (countx > 0) {
 				sb.append(",")
 			}
 			sb.append("{")
 			sb.append("\"name\":\"")
 			sb.append(xp.getName())
-			sb.append("\",\"")
+			sb.append("\",\"value\":\"")
 			sb.append(xp.getValue())
 			sb.append("\"")
 			sb.append("}")
-			count += 1
+			countx += 1
 		}
 		sb.append("]")
 	}
-	// 
-	if (to.getSelectorMethod().equals("BASIC") && to.getProperties().size() > 0) {
+	// BASIC detail
+	if (to.getSelectorMethod() == SelectorMethod."BASIC") {
 		sb.append(",")
+		sb.append("\"activeProperties\":")
 		sb.append("[")
-		int count = 0
+		int countb = 0
 		for (TestObjectProperty top : to.getActiveProperties()) {
-			if (count > 0) {
+			if (countb > 0) {
 				sb.append(",")
 			}
 			sb.append("{")
@@ -92,10 +94,12 @@ String formatTestObject(TestObject to) {
 			sb.append(top.isActive())
 			sb.append("\"")
 			sb.append("}")
-			count += 1			
+			countb += 1			
 		}
 		sb.append("]")
 	}
+	// CSS detail
+	// TODO
 	sb.append("}")
 	return sb.toString()
 }

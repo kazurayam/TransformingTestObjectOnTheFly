@@ -8,7 +8,7 @@ import com.kms.katalon.core.util.KeywordUtil
 
 class TestObjectTransformer {
 
-	private static KeywordLogger logger = new KeywordLogger()
+	private static KeywordLogger logger = KeywordUtil.logInfo()
 
 	/**
 	 * This accepts a test object with xpath in the format of
