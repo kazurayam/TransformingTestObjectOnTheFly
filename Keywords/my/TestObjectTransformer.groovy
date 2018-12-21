@@ -4,8 +4,14 @@ import com.kms.katalon.core.annotation.Keyword
 import com.kms.katalon.core.logging.KeywordLogger
 import com.kms.katalon.core.model.FailureHandling
 import com.kms.katalon.core.testobject.TestObject
+import com.kms.katalon.core.testobject.SelectorMethod
 import com.kms.katalon.core.util.KeywordUtil
 
+/**
+ * 
+ * @author kazurayam
+ *
+ */
 class TestObjectTransformer {
 
 	private static KeywordLogger logger = KeywordUtil.logInfo()
@@ -35,11 +41,23 @@ class TestObjectTransformer {
 	}
 
 	/**
-	 * Click element
-	 * @param to Katalon test object
+	 *
+	 * @param source TestObject instance as source
+	 * @param logic a Groovy Closure which transforms input xpath expression into another xpath expression
 	 */
-	private static TestObject transformTestObject(TestObject testObject, Closure transformingLogic) {
-		return testObject
+	private static TestObject transformTestObject(TestObject source, Closure logic) {
+		if (source.getSelectorMethod() == SelectorMethod.XPATH) {
+			
+		} else if (source.getSelectorMethod() == SelectorMethod.BASIC) {
+		
+		} else if (source.getSelectorMethod() == SelectorMethod.CSS) {
+			throw new UnsupportedOperationException("SelectionMethod.CSS is not yet supported")
+		} else {
+			throw new RuntimeException("unknow selectionMethod")
+		}
+		//TestObject newTestObject = new TestObject()
+		//newTestObject.setSelectorMethod(SelectorMethod.BASIC)
+		return source
 	}
 
 	static def stepFailed(String message, FailureHandling flowControl) {
