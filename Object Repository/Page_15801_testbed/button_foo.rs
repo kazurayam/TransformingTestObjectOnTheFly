@@ -9,6 +9,10 @@
          <key>XPATH</key>
          <value>//button[@id='staticId1:dynamicId:staticId2']</value>
       </entry>
+      <entry>
+         <key>BASIC</key>
+         <value>//button[@type = 'button' and @id = 'staticId1:dynamicId:staticId2' and (text() = 'foo' or . = 'foo')]</value>
+      </entry>
    </selectorCollection>
    <selectorMethod>XPATH</selectorMethod>
    <useRalativeImagePath>false</useRalativeImagePath>
