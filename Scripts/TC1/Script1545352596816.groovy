@@ -19,11 +19,20 @@ WebUI.navigateToUrl('http://demoaut-mimic.kazurayam.com/15801_testbed.html')
 
 WebUI.verifyElementPresent(findTestObject('Object Repository/Page_15801_testbed/div_main'), 10)
 
-WebUI.verifyElementPresent(findTestObject('Object Repository/Page_15801_testbed/button_foo'), 3)
+def staticId2 = CustomKeywords.'my.TestObjectTransformer.toMichalPachuckiXpath'(
+		findTestObject('Page_15801_testbed/button_staticId2'),
+		FailureHandling.STOP_ON_FAILURE)
+WebUI.verifyElementPresent(staticId2, 3)
 
-WebUI.verifyElementPresent(findTestObject('Object Repository/Page_15801_testbed/button_bar'), 3)
+def everest = CustomKeywords.'my.TestObjectTransformer.toMichalPachuckiXpath'(
+		findTestObject('Page_15801_testbed/button_EVEREST'),
+		FailureHandling.STOP_ON_FAILURE)
+WebUI.verifyElementPresent(everest, 3)
 
-WebUI.verifyElementPresent(findTestObject('Object Repository/Page_15801_testbed/button_baz'), 3)
+def kilimanjaro = CustomKeywords.'my.TestObjectTransformer.toMichalPachuckiXpath'(
+		findTestObject('Page_15801_testbed/button_KILIMANJARO'),
+		FailureHandling.STOP_ON_FAILURE)
+WebUI.verifyElementPresent(kilimanjaro, 3)
 
 WebUI.closeBrowser()
 

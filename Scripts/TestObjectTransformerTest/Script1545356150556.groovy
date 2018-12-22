@@ -9,16 +9,24 @@ import com.fasterxml.jackson.databind.SerializationFeature
  * TestObjectTransformerTest
  */
 
-TestObject source = findTestObject("Object Repository/Page_15801_testbed/button_foo")
-assert source != null
-println "source is " + CustomKeywords.'my.TestObjectFormatter.format'(source)
+def performTransformingTestObject(TestObject source) {
+	assert source != null
+	println "------------------------------------------------------------------------------"
+	println "source is " + CustomKeywords.'my.TestObjectFormatter.format'(source)
 
+	// transform a Test Object into another as Michal.Pachuski wanted 
+	// see https://forum.katalon.com/t/customizing-xpath-generation/15801
+	TestObject target =
+		CustomKeywords.'my.TestObjectTransformer.toMichalPachuckiXpath'(source,
+			FailureHandling.STOP_ON_FAILURE)
 
-// transform a Test Object into another as Michal.Pachuski wanted 
-// see https://forum.katalon.com/t/customizing-xpath-generation/15801
-TestObject target = CustomKeywords.'my.TestObjectTransformer.toMichalPachuckiXpath'(source, FailureHandling.OPTIONAL)
-assert target != null
-println "target is " + CustomKeywords.'my.TestObjectFormatter.format'(target)
+	assert target != null
+	println "target is " + CustomKeywords.'my.TestObjectFormatter.format'(target)
+}
+
+performTransformingTestObject(findTestObject("Page_15801_testbed/button_staticId2"))
+performTransformingTestObject(findTestObject("Page_15801_testbed/button_EVEREST"))
+performTransformingTestObject(findTestObject("Page_15801_testbed/button_KILIMANJARO"))
 
 
 

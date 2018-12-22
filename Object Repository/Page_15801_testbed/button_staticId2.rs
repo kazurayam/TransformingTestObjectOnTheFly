@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <WebElementEntity>
    <description></description>
-   <name>button_baz</name>
+   <name>button_staticId2</name>
    <tag></tag>
-   <elementGuidId>3d4e2d87-34af-419a-bd3f-bdc59df54ec8</elementGuidId>
+   <elementGuidId>d325688d-10af-41aa-888c-604dc14c360f</elementGuidId>
    <selectorCollection>
       <entry>
          <key>XPATH</key>
-         <value>//button[@id='abc:49238765:staticId_02']</value>
+         <value>//button[@id='staticId1:dynamicId:staticId2']</value>
+      </entry>
+      <entry>
+         <key>BASIC</key>
+         <value>//button[@type = 'button' and @id = 'staticId1:dynamicId:staticId2' and (text() = 'foo' or . = 'foo')]</value>
       </entry>
    </selectorCollection>
    <selectorMethod>XPATH</selectorMethod>
@@ -31,56 +35,50 @@
       <matchCondition>equals</matchCondition>
       <name>id</name>
       <type>Main</type>
-      <value>abc:49238765:staticId_02</value>
+      <value>staticId1:dynamicId:staticId2</value>
    </webElementProperties>
    <webElementProperties>
       <isSelected>true</isSelected>
       <matchCondition>equals</matchCondition>
       <name>text</name>
       <type>Main</type>
-      <value>baz</value>
+      <value>foo</value>
    </webElementProperties>
    <webElementProperties>
       <isSelected>false</isSelected>
       <matchCondition>equals</matchCondition>
       <name>xpath</name>
       <type>Main</type>
-      <value>id(&quot;abc:49238765:staticId_02&quot;)</value>
+      <value>id(&quot;staticId1:dynamicId:staticId2&quot;)</value>
    </webElementProperties>
    <webElementXpaths>
       <isSelected>true</isSelected>
       <matchCondition>equals</matchCondition>
       <name>xpath:attributes</name>
-      <value>//button[@id='abc:49238765:staticId_02']</value>
+      <value>//button[@id='staticId1:dynamicId:staticId2']/span</value>
    </webElementXpaths>
    <webElementXpaths>
       <isSelected>false</isSelected>
       <matchCondition>equals</matchCondition>
       <name>xpath:idRelative</name>
-      <value>//div[@id='main']/div[3]/button</value>
+      <value>//div[@id='main']/div/button</value>
    </webElementXpaths>
    <webElementXpaths>
       <isSelected>false</isSelected>
       <matchCondition>equals</matchCondition>
       <name>xpath:neighbor</name>
-      <value>(.//*[normalize-space(text()) and normalize-space(.)='bar'])[1]/following::button[1]</value>
+      <value>(.//*[normalize-space(text()) and normalize-space(.)='testbed for https://forum.katalon.com/t/customizing-xpath-generation/15801'])[1]/following::button[1]</value>
    </webElementXpaths>
    <webElementXpaths>
       <isSelected>false</isSelected>
       <matchCondition>equals</matchCondition>
       <name>xpath:neighbor</name>
-      <value>(.//*[normalize-space(text()) and normalize-space(.)='foo'])[1]/following::button[2]</value>
-   </webElementXpaths>
-   <webElementXpaths>
-      <isSelected>false</isSelected>
-      <matchCondition>equals</matchCondition>
-      <name>xpath:neighbor</name>
-      <value>(.//*[normalize-space(text()) and normalize-space(.)=concat('id(', '&quot;', 'abc:49238765:staticId_02', '&quot;', ')')])[1]/preceding::button[1]</value>
+      <value>(.//*[normalize-space(text()) and normalize-space(.)='bar'])[1]/preceding::button[1]</value>
    </webElementXpaths>
    <webElementXpaths>
       <isSelected>false</isSelected>
       <matchCondition>equals</matchCondition>
       <name>xpath:position</name>
-      <value>//div[3]/button</value>
+      <value>//button</value>
    </webElementXpaths>
 </WebElementEntity>

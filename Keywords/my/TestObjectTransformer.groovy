@@ -1,7 +1,6 @@
 package my
 
 import com.kms.katalon.core.annotation.Keyword
-import com.kms.katalon.core.logging.KeywordLogger
 import com.kms.katalon.core.model.FailureHandling
 import com.kms.katalon.core.testobject.TestObject
 import com.kms.katalon.core.testobject.TestObjectProperty
@@ -9,18 +8,23 @@ import com.kms.katalon.core.testobject.TestObjectXpath
 import com.kms.katalon.core.testobject.SelectorMethod
 import com.kms.katalon.core.util.KeywordUtil
 
+import java.util.regex.Pattern
+import java.util.regex.Matcher
 /**
  * 
  * @author kazurayam
  *
  */
 class TestObjectTransformer {
-
-	private static KeywordLogger logger = KeywordUtil.logInfo()
-
+	
+	private static boolean DEBUG = false
+	
 	/**
 	 * This accepts a test object with xpath in the format of
 	 *     <code>//button[@id="staticId1:dynamicId:staticId2"]/span</code>
+	 * where 'staticId' 'dyanmicId' 'staticId2' are character sequence
+	 * 1. of word characters: [a-zA-Z_0-9]
+	 * 2. of length > 0 and length < 20
 	 * 
 	 * then it transform the expression into another expression of
 	 *     <code>//button[starts-with(@id,"staticId1") and (substring(@id,string-length(@id)-string-length("staticId2")+1)="staticId2")]/span<code>
@@ -36,19 +40,37 @@ class TestObjectTransformer {
 	 */
 	@Keyword
 	static TestObject toMichalPachuckiXpath(TestObject testObject, FailureHandling flowControl) {
-		String xpath = ''
 		try {
-			return transformTestObject(testObject, 
-				{ expr -> 
+			Pattern p = Pattern.compile(/\/\/button\[@id=['"](\w{1,20}):(\w{1,20}):(\w{1,20})['"]\]\/span/)
+			return transformTestObject(testObject, { expr ->
+				Matcher m = p.matcher(expr)
+				if (m.matches()) {
+					def staticId1 = m.group(1)
+					def dynamicId = m.group(2)
+					def staticId2 = m.group(3)
+					def newExpr = '//button[starts-with(@id,\"' + staticId1 +
+							'\") and (substring(@id,string-length(@id)-string-length(\"' + staticId2 +
+							'\")+1)=\"' + staticId2 + '\")]/span'
+					if (DEBUG) println "\n>>> newExpr \"${newExpr}\"\n"
+					return newExpr
+				} else {
+					if (DEBUG) ">>> source expr \"${expr}\" does not match the pattern ${p.toString()}\n"
 					return expr
-				})
+				}
+			})
 		} catch (Exception e) {
-			stepFailed("failed to transform xpath: ${xpath}", flowControl)
+			e.printStackTrace()
+			stepFailed("failed to transform a test object: " +
+					TestObjectFormatter.format(testObject),
+					flowControl)
 		}
 	}
 
+
 	/**
-	 * 
+	 * taking a source TestObject, will create a new TestObject and return it.
+	 * XPath expression of the source is transformed by the logic (Groovy Closure) and set into the resulting TestObject.
+	 *  
 	 * @param source TestObject instance as source. It should have Selector Method=XPATH or BASIC. CSS is not supported.
 	 * @param logic a Groovy Closure which transforms input xpath expression into another xpath expression
 	 */
@@ -60,7 +82,7 @@ class TestObjectTransformer {
 			for (TestObjectXpath tox : source.getActiveXpaths()) {
 				TestObjectXpath newTox = new TestObjectXpath()
 				newTox.setName(tox.getName())
-				// xpath expression is transformed by the logic 
+				// xpath expression is transformed by the logic
 				newTox.setValue(logic.call(tox.getValue()))
 				toxList.add(newTox)
 			}
@@ -88,15 +110,15 @@ class TestObjectTransformer {
 	static def stepFailed(String message, FailureHandling flowControl) {
 		if (flowControl == FailureHandling.OPTIONAL) {
 			println "#stepFailed('${message}',FailureHandling.OPTIONAL)"
-			logger.logWarning(message)
+			KeywordUtil.logInfo(message)
 		} else if (flowControl == FailureHandling.CONTINUE_ON_FAILURE) {
 			println "#stepFailed('${message}',FailureHandling.CONTINUE_ON_FAILURE)"
-			logger.logFailed(message)
+			KeywordUtil.logInfo(message)
 			KeywordUtil.markFailed(message)
 		} else {
 			// in the case where flowControl == FailureHandling.STOP_ON_FAILURE
 			println "#stepFailed('${message}',FailureHandling.STOP_ON_FAILURE)"
-			logger.logFailed(message)
+			KeywordUtil.logInfo(message)
 			KeywordUtil.markFailedAndStop(message)
 		}
 	}
