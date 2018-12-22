@@ -16,9 +16,9 @@ import java.util.regex.Matcher
  *
  */
 class TestObjectTransformer {
-	
+
 	private static boolean DEBUG = false
-	
+
 	/**
 	 * This accepts a test object with xpath in the format of
 	 *     <code>//button[@id="staticId1:dynamicId:staticId2"]/span</code>
@@ -75,13 +75,15 @@ class TestObjectTransformer {
 	 * @param logic a Groovy Closure which transforms input xpath expression into another xpath expression
 	 */
 	private static TestObject transformTestObject(TestObject source, Closure logic) {
-		TestObject newTO = new TestObject(source.getObjectId())
+		Objects.requireNonNull(source.getObjectId())
+		TestObject newTO = new TestObject(source.getObjectId() + "*")
 		if (source.getSelectorMethod() == SelectorMethod.XPATH) {
 			newTO.setSelectorMethod(SelectorMethod.XPATH)
 			List<TestObjectXpath> toxList = new ArrayList<>()
 			for (TestObjectXpath tox : source.getActiveXpaths()) {
 				TestObjectXpath newTox = new TestObjectXpath()
 				newTox.setName(tox.getName())
+				newTox.setCondition(tox.getCondition())
 				// xpath expression is transformed by the logic
 				newTox.setValue(logic.call(tox.getValue()))
 				toxList.add(newTox)
