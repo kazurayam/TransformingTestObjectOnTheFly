@@ -31,9 +31,9 @@ The following table shows some examples of source xpath and generated xpath pair
 
 ## Applicability and extensibility of my proposal
 
-The rule of xpath transformation above is designed specifically to satisfy the need of Michal.Pachucki's case. It is not applicable to other cases.
+The rule of xpath transformation implemented as the `toMichalPachuckiXpath()` method is designed specifically to satisfy the need of Michal.Pachucki's case. The method is not applicable to other cases.
 
-However you would find the code of [`my.TestObjectTransformer`](Keywords/my/TestObjectTransformer.groovy) is extensible enough to implement your way of generating TestObjects with your customized XPath.
+However the class `my.TestObjectTransformer` is extensible. If you read the code of [`my.TestObjectTransformer`](Keywords/my/TestObjectTransformer.groovy) you would find a way to add another method which implements your way of generating TestObjects with your customized XPath.
 
 ## Description
 
