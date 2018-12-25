@@ -29,9 +29,50 @@ The following table shows some examples of source xpath and generated xpath pair
 | `//button[@id='abc:96423857:EVEREST']/span"}]}` | `//button[starts-with(@id,"abc") and (substring(@id,string-length(@id)-string-length("EVEREST")+1)="EVEREST")]/span"}]}` |
 | `//button[@id='abc:49238765:KILIMANJARO']/span"}]}` | `//button[starts-with(@id,"abc") and (substring(@id,string-length(@id)-string-length("KILIMANJARO")+1)="KILIMANJARO")]/span"}]}` |
 
-The rule of xpath transformation above is not general at all. It is designed specifically to satisfy the need of Michal.Pachucki's case.
+## Applicability and extensibility of my proposal
+
+The rule of xpath transformation above is designed specifically to satisfy the need of Michal.Pachucki's case. It is not applicable to other cases.
+
+However you would find the code of [`my.TestObjectTransformer`](Keywords/my/TestObjectTransformer.groovy) is extensible enough to implement your way of generating TestObjects with your customized XPath.
 
 ## Description
+
+I have developed a custom keyword:
+-  [`my.TestObjectTransformer`](Keywords/my/TestObjectTransformer.groovy)
+
+This keyword is tested by a TestCase:
+- [`Test Cases/TestObjectTransformerTest`](Scripts/TestObjectTransformerTest/Script1545356150556.groovy)
+
+This test case has the following code snipet:
+
+```
+def performTransformingTestObject(TestObject source) {
+	assert source != null
+	println "------------------------------------------------------------------------------"
+	println "source is " + CustomKeywords.'my.TestObjectFormatter.format'(source)
+
+	// transform a Test Object into another as Michal.Pachuski wanted
+	// see https://forum.katalon.com/t/customizing-xpath-generation/15801
+	TestObject target =
+		CustomKeywords.'my.TestObjectTransformer.toMichalPachuckiXpath'(source,
+			FailureHandling.STOP_ON_FAILURE)
+
+	assert target != null
+	println "target is " + CustomKeywords.'my.TestObjectFormatter.format'(target)
+}
+
+performTransformingTestObject(findTestObject("Page_15801_testbed/button_staticId2"))
+```
+
+When you run the test case, you would see the following output in the Console:
+
+```
+------------------------------------------------------------------------------
+source is {"objectId":"Object Repository/Page_15801_testbed/button_staticId2","selectorMethod":"XPATH","activeXpaths":[{"name":"xpath:attributes","value":"//button[@id='staticId1:dynamicId:staticId2']/span"}]}
+
+target is {"objectId":"Object Repository/Page_15801_testbed/button_staticId2*","selectorMethod":"XPATH","activeXpaths":[{"name":"xpath:attributes","value":"//button[starts-with(@id,"staticId1") and (substring(@id,string-length(@id)-string-length("staticId2")+1)="staticId2")]/span"}]}
+
+```
 
 
 
