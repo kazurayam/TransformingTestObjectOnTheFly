@@ -24,7 +24,7 @@ Here I propose a Custom Keyword named `my.TestObjectTransformer`. The class has 
 The following table shows some examples of source xpath and generated xpath pairs.
 
 | source xpath | generated xpath |
-|:------------ |:--------------- |
+|:------------ | :--------------- |
 | `//button[@id='staticId1:dynamicId:staticId2']/span` | `//button[starts-with(@id,"staticId1") and (substring(@id,string-length(@id)-string-length("staticId2")+1)="staticId2")]/span"}]}` |`
 | `//button[@id='abc:96423857:EVEREST']/span"}]}` | `//button[starts-with(@id,"abc") and (substring(@id,string-length(@id)-string-length("EVEREST")+1)="EVEREST")]/span"}]}` |
 | `//button[@id='abc:49238765:KILIMANJARO']/span"}]}` | `//button[starts-with(@id,"abc") and (substring(@id,string-length(@id)-string-length("KILIMANJARO")+1)="KILIMANJARO")]/span"}]}` |
@@ -32,6 +32,7 @@ The following table shows some examples of source xpath and generated xpath pair
 The rule of xpath transformation above is not general at all. It is designed specifically to satisfy the need of Michal.Pachucki's case.
 
 ## Description
+
 
 
 ## Conclusion
