@@ -12,10 +12,8 @@ WebUI.openBrowser('')
 WebUI.navigateToUrl('http://demoaut-mimic.kazurayam.com/15801_testbed.html')
 WebUI.verifyElementPresent(findTestObject('Object Repository/Page_15801_testbed/div_main'), 10)
 
-// this passes
 TestObject staticId2 = findTestObject('Page_15801_testbed/button_staticId2')
 WebUI.verifyElementPresent(staticId2, 3)
-
 //println "staticId2=\n" + mapper.writeValueAsString(staticId2)
 
 
@@ -23,13 +21,12 @@ WebUI.verifyElementPresent(staticId2, 3)
 TestObject staticId2aster = CustomKeywords.'my.TestObjectTransformer.toMichalPachuckiXpath'(
 		findTestObject('Page_15801_testbed/button_staticId2'),
 		FailureHandling.STOP_ON_FAILURE)
-
-//println "staticId2=\n" + CustomKeywords.'my.TestObjectFormatter.format'(staticId2aster)
-
 //println "staticId2aster=\n" + mapper.writeValueAsString(staticId2aster)
 
-// this fails
-WebUI.verifyElementPresent(staticId2, 3)
+// The following call will fail due to 
+// "Cannot find elements when XPath expression is null" problem reported at
+// https://forum.katalon.com/t/cannot-find-elements-when-xpath-expression-is-null/13840
+WebUI.verifyElementPresent(staticId2aster, 3)
 
 
 
