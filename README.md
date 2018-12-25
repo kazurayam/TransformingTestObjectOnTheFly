@@ -115,7 +115,7 @@ I expect the `TC1` should pass as follows:
 
 But in fact, the TC1 fails due to a problem in Katalon Studio :
 "Cannot find elements when xpath expression is null"](https://forum.katalon.com/t/cannot-find-elements-when-xpath-expression-is-null/13840).
-It fails in Katalon Studio 5.7~5.10 with the following error messages in the Console.
+It fails in Katalon Studio 5.7~5.10.0 with the following error messages in the Console.
 
 ```
 2018-12-25 11:34:37.877 ERROR c.k.katalon.core.main.TestCaseExecutor   - [❌ Test Cases/TC1 FAILED.
